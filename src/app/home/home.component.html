@@ -1,0 +1,98 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "rgb(255, 255, 123)" type = "timer" [fullScreen] = "true"></ngx-spinner>
+
+<div class="py-5 mt-5 container">
+
+  <div>
+    <div class="text-end">
+      <button (click)="changeToAdd()" type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+        data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add Note</button>
+
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div *ngIf="change=='add'" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-info" id="exampleModalLabel">Add Note</h5>
+            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+          </div>
+          <div class="modal-body">
+            <div>
+              <div class="mb-3">
+                <input [value]="this.title" [(ngModel)]="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
+              </div>
+              <div class="mb-3">
+                <textarea [value]="this.desc" [(ngModel)]="desc" class="form-control" id="message-text" rows="10"
+                  placeholder="Add Description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="sendData()" type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Add Note</button>
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
+          </div>
+        </div>
+        <div *ngIf="change=='delete'" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure?</h5>
+            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+          </div>
+          <div class="modal-body text-info text-center">
+            Do you really want to delete ?
+            <br>
+            Process cannot be undo
+          </div>
+          <div class="modal-footer">
+            <button (click)="deleteData()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+        <div *ngIf="change=='update'" class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-info" id="exampleModalLabel">Update Note</h5>
+              <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+            </div>
+          <div class="modal-body">
+            <div>
+              <div class="mb-3">
+                <input [value]="this.title" [(ngModel)]="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
+              </div>
+              <div class="mb-3">
+                <textarea [value]="this.desc" [(ngModel)]="desc" class="form-control" id="message-text" rows="10"
+                  placeholder="Add Description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="updateData()" type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Update
+              Note</button>
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div *ngFor="let note of notes" class="col-md-3 note m-5 p-3">
+      <div class="dropdown text-end">
+        <a class="text-dark" type="button" [id]="note._id" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-thumbtack text-danger"></i>
+        </a>
+        <ul class="dropdown-menu" [attr.aria-labelledby]="note._id">
+          <li><a type="button" class="dropdown-item d-flex justify-content-between align-items-center" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" (click)="getUpdateData(note)">Edit<i
+                class="fas fa-pen-square text-primary"></i></a></li>
+          <li><a type="button" class="btn btn-primary dropdown-item d-flex justify-content-between align-items-center"
+              data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getNoteID(note._id)">Delete<i
+                class="fas fa-trash-alt text-danger"></i></a></li>
+        </ul>
+      </div>
+      <div class=" px-1 pb-3 overflow-hidden">
+        <h3>{{note.title}}</h3>
+        <p>{{note.desc}}</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>

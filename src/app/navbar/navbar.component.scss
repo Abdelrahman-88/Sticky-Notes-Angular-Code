@@ -1,0 +1,43 @@
+@import "../../styles.scss";
+
+.navbar{
+    background-color: $lite-color;
+    
+}
+
+.navbar-brand{
+    color: $third-color !important;
+}
+
+a{
+    color: $text-color !important;
+}
+
+.icon{
+    width: 40px;
+}
+
+.active{
+    color: $third-color !important;
+}
+
+.nav-link:hover{
+    color: $third-color !important;
+}
+
+.dropdown-item{
+    color: $main-color !important;
+    transition: background-color .3s;
+}
+
+.dropdown-item:hover{
+    background-color: $third-color !important;
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+    background-color: $third-color;
+}
+
+.dropdown-menu[data-bs-popper]{
+    left: -10px;
+}

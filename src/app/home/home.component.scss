@@ -1,0 +1,55 @@
+@import "../../styles.scss";
+
+.note{
+    width: 200px;
+    height: 200px;
+    background-color: $third-color;
+    border-radius: 4px;
+}
+
+.dropdown-item{
+    color: $main-color !important;
+    transition: background-color .3s;
+}
+
+.dropdown-item:hover{
+    background-color: $third-color !important;
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+    background-color: $third-color;
+}
+
+.modal-content{
+    background-color: $third-color;
+}
+
+.modal-body{
+    padding: 0 !important;
+}
+
+.form-control{
+    background-color: $third-color;
+    border: 0;
+}
+
+.form-control:focus{
+    border-color: unset;
+    box-shadow: unset;
+}
+
+.modal-header{
+    border-bottom: unset;
+}
+
+.modal-footer{
+    border-top: unset;
+}
+
+.fa-thumbtack{
+    transform: rotate(45deg);
+}
+
+.fa-thumbtack:hover{
+    color: red !important;
+}

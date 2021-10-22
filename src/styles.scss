@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+
+$main-color:#24292e;
+$second-color:#212529;
+$lite-color:#21252998;
+$lite-white:rgba(255, 255, 255, 0.466);
+$third-color:rgb(255, 255, 123);
+$text-color:#fff;
+$font:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+body{
+    background-color: $main-color;
+    font-family: $font;
+}
+
+a{
+    color: $text-color;
+}
