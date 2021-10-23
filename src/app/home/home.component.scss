@@ -28,12 +28,12 @@
     padding: 0 !important;
 }
 
-.form-control{
+.modal-dialog .form-control{
     background-color: $third-color;
     border: 0;
 }
 
-.form-control:focus{
+.modal-dialog .form-control:focus{
     border-color: unset;
     box-shadow: unset;
 }
@@ -51,5 +51,5 @@
 }
 
 .fa-thumbtack:hover{
-    color: red !important;
+    color: rgb(189, 0, 0) !important;
 }

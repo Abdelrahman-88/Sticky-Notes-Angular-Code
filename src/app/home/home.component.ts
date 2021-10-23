@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  terms:string = "";
   change: string = "add";
   data: Object = {};
   deleteInfo: Object = {};

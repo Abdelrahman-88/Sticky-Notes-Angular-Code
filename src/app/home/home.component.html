@@ -12,8 +12,8 @@
       <div class="modal-dialog">
         <div *ngIf="change=='add'" class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-info" id="exampleModalLabel">Add Note</h5>
-            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+            <h5 class="modal-title text-primary" id="exampleModalLabel">Add Note</h5>
+            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
           </div>
           <div class="modal-body">
             <div>
@@ -34,9 +34,9 @@
         <div *ngIf="change=='delete'" class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure?</h5>
-            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
           </div>
-          <div class="modal-body text-info text-center">
+          <div class="modal-body text-primary text-center">
             Do you really want to delete ?
             <br>
             Process cannot be undo
@@ -48,8 +48,8 @@
         </div>
         <div *ngIf="change=='update'" class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-info" id="exampleModalLabel">Update Note</h5>
-              <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-danger"></i></a>
+              <h5 class="modal-title text-primary" id="exampleModalLabel">Update Note</h5>
+              <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
             </div>
           <div class="modal-body">
             <div>
@@ -72,11 +72,23 @@
     </div>
   </div>
 
+  <div class="w-75 m-auto">
+    <div class="form-floating my-3">
+      <input [(ngModel)]="terms" type="text" class="form-control bg-transparent text-primary border-primary" id="floatingInput" placeholder="Search">
+      <label class="text-primary" for="floatingInput">Search</label>
+    </div>
+  </div>
+
   <div class="row justify-content-center">
-    <div *ngFor="let note of notes" class="col-md-3 note m-5 p-3">
+    <div *ngIf="(notes|search:terms).length == 0 && terms" class="d-flex justify-content-center align-items-center mt-5 text-primary">
+      <h2>
+        No Match
+      </h2>
+    </div>
+    <div *ngFor="let note of notes|search:terms" class="col-md-3 note m-5 p-3">
       <div class="dropdown text-end">
         <a class="text-dark" type="button" [id]="note._id" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-thumbtack text-danger"></i>
+          <i class="fas fa-thumbtack text-primary"></i>
         </a>
         <ul class="dropdown-menu" [attr.aria-labelledby]="note._id">
           <li><a type="button" class="dropdown-item d-flex justify-content-between align-items-center" data-bs-toggle="modal"

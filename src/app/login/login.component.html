@@ -4,25 +4,25 @@
 
 <div class="d-flex justify-content-center mt-5 container">
     <div class="mt-5 w-50">
-        <h1 class="my-3 text-info">
+        <h1 class="my-3 text-primary">
             Login
         </h1>
     
         <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm(loginForm)">
             <div class="form-floating mb-3">
-                <input formControlName="email" type="email" class="form-control" id="email" placeholder="name@example.com">
-                <label for="email">Email</label>
+                <input formControlName="email" type="email" class="form-control bg-transparent border-primary text-primary" id="email" placeholder="name@example.com">
+                <label class="text-primary" for="email">Email</label>
                 <div *ngIf="loginForm.get('email')?.errors!=null && loginForm.get('email')?.touched"
-                        class="alert alert-danger mt-2 fw-bolder">
+                        class="alert alert-danger mt-2 fw-bolder bg-transparent border-danger">
                         <p *ngIf="loginForm.get('email')?.errors?.required">Email is required</p>
                         <p *ngIf="loginForm.get('email')?.errors?.email">Invalid email</p>
                     </div>
             </div>
             <div class="form-floating mb-3">
-                <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
-                <label for="password">Password</label>
+                <input formControlName="password" type="password" class="form-control bg-transparent border-primary text-primary" id="password" placeholder="Password">
+                <label class="text-primary" for="password">Password</label>
                 <div *ngIf="loginForm.get('password')?.errors!=null && loginForm.get('password')?.touched"
-                        class="alert alert-danger mt-2 fw-bolder">
+                        class="alert alert-danger mt-2 fw-bolder bg-transparent border-danger">
                         <p *ngIf="loginForm.get('password')?.errors?.required">Password is required</p>
                         <p *ngIf="loginForm.get('password')?.errors?.pattern">Invalid password</p>
                     </div>

@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { ParticlesModule } from 'ngx-particle';
+import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ParticlesModule } from 'ngx-particle';
     RegisterComponent,
     NotfoundComponent,
     NavbarComponent,
-    UserComponent
+    UserComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
