@@ -5,6 +5,8 @@
     height: 200px;
     background-color: $third-color;
     border-radius: 4px;
+    overflow-wrap: break-word;
+    overflow-y: hidden;
 }
 
 .dropdown-item{

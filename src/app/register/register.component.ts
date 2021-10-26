@@ -19,10 +19,10 @@ export class RegisterComponent implements OnInit {
   error: string = "";
 
   registerForm: FormGroup = new FormGroup({
-    "first_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required]),
-    "last_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required]),
+    "first_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^\w+$/)]),
+    "last_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^\w+$/)]),
     "email": new FormControl(null, [Validators.email, Validators.required]),
-    "age": new FormControl(null, [Validators.min(16), Validators.max(80), Validators.required]),
+    "age": new FormControl(null, [Validators.min(16), Validators.max(80), Validators.required, Validators.pattern(/^\d+$/)]),
     "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)])
   })
 

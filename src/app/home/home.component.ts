@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  terms:string = "";
+  terms: string = "";
   change: string = "add";
   data: Object = {};
   deleteInfo: Object = {};
@@ -21,42 +23,78 @@ export class HomeComponent implements OnInit {
   desc: any;
   noteID: any;
   notes: any[] = [];
-  constructor(private _AuthService: AuthService, private _NotesService: NotesService, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
+
+  addForm: FormGroup = new FormGroup({
+    "title": new FormControl(null, [Validators.required, Validators.pattern(/^((?!(<|>)).)+$/)]),
+    "desc": new FormControl(null, [Validators.required, Validators.pattern(/^((?!(<|>)).)+$/)])
+  })
+
+  updateForm: FormGroup = new FormGroup({
+    "title": new FormControl(null, [Validators.required, Validators.pattern(/^((?!(<|>)).)+$/)]),
+    "desc": new FormControl(null, [Validators.required, Validators.pattern(/^((?!(<|>)).)+$/)])
+  })
+
+  searchForm: FormGroup = new FormGroup({
+    "term": new FormControl(null, [Validators.pattern(/^((?!(<|>)).)+$/)])
+  })
+
+
+  constructor(private _AuthService: AuthService, private _NotesService: NotesService, private spinner: NgxSpinnerService, private toastr: ToastrService, private _Router:Router) { }
 
   ngOnInit(): void {
+    
     this.id = this._AuthService.userData.value;
     this.token = localStorage.getItem("userToken");
     this.spinner.show();
     this.getData();
   }
 
-  sendData() {
-    this.toastr.success('Success!', "",{positionClass:'toast-bottom-right',timeOut: 1000});
-    this.spinner.show();
-    this.data = {
-      "title": this.title,
-      "desc": this.desc,
-      "userID": this.id._id,
-      "token": this.token
+  search(searchForm:FormGroup){
+    if(searchForm.valid){
+      this.terms = searchForm.controls.term.value;
     }
+    else{
+      this.toastr.error(`Error invalid input(<>)!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+    }
+    
+  }
 
-    this._NotesService.addNote(this.data).subscribe((response) => {
-      console.log(response)
-      if (response.message == "success") {
-        this.getData();
+  sendData(addForm: FormGroup) {
+    if (addForm.valid) {
+      this.toastr.success('Success!', "", { positionClass: 'toast-bottom-right', timeOut: 1000 });
+      this.spinner.show();
+      this.data = {
+        "title": addForm.controls.title.value,
+        "desc": addForm.controls.desc.value,
+        "userID": this.id._id,
+        "token": this.token
       }
-    })
+
+      this._NotesService.addNote(this.data).subscribe((response) => {
+        if (response.message == "success") {
+          this.getData();
+        }
+      })
+    }
+    else if (addForm.get('title')?.errors?.pattern || addForm.get('desc')?.errors?.pattern) {
+      this.toastr.error(`Error invalid input(<>)!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+    }
+    else {
+      this.toastr.error(`All inputs required!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+    }
   }
 
   getData() {
     this.spinner.show();
     this._NotesService.getNote(this.id._id, this.token).subscribe((response) => {
-      if(response.message == 'success'){
+      if (response.message == 'success') {
         this.notes = response.Notes;
         this.spinner.hide();
       }
-      else{
+      else {
         this.spinner.hide();
+        localStorage.removeItem("userToken");
+      this._Router.navigate(["/login"]);
       }
     })
   }
@@ -68,12 +106,11 @@ export class HomeComponent implements OnInit {
 
   changeToAdd() {
     this.change = "add";
-    this.title = "";
-    this.desc = "";
+    this.addForm.reset();
   }
 
   deleteData() {
-    this.toastr.error('Deleted!', "",{positionClass:'toast-bottom-right',timeOut: 1000});
+    this.toastr.error('Deleted!', "", { positionClass: 'toast-bottom-right', timeOut: 1000 });
     this.spinner.show();
     this.deleteInfo = {
       "NoteID": this.noteID,
@@ -88,24 +125,32 @@ export class HomeComponent implements OnInit {
 
   getUpdateData(e: any) {
     this.change = "update";
-    this.title = e.title;
-    this.desc = e.desc;
+    this.updateForm.controls.title.setValue(e.title);
+    this.updateForm.controls.desc.setValue(e.desc);
     this.noteID = e._id
   }
 
-  updateData() {
-    this.toastr.info('Updated!', "",{positionClass:'toast-bottom-right',timeOut: 1000});
-    this.spinner.show();
-    this.updateInfo = {
-      "title": this.title,
-      "desc": this.desc,
-      "NoteID": this.noteID,
-      "token": this.token
-    }
-    this._NotesService.updateNote(this.updateInfo).subscribe((response) => {
-      if (response.message == "updated") {
-        this.getData();
+  updateData(updateForm: FormGroup) {
+    if (updateForm.valid) {
+      this.toastr.info('Updated!', "", { positionClass: 'toast-bottom-right', timeOut: 1000 });
+      this.spinner.show();
+      this.updateInfo = {
+        "title": updateForm.controls.title.value,
+        "desc": updateForm.controls.desc.value,
+        "NoteID": this.noteID,
+        "token": this.token
       }
-    })
+      this._NotesService.updateNote(this.updateInfo).subscribe((response) => {
+        if (response.message == "updated") {
+          this.getData();
+        }
+      })
+    }
+    else if (updateForm.get('title')?.errors?.pattern || updateForm.get('desc')?.errors?.pattern) {
+      this.toastr.error(`Error invalid input(<>)!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+    }
+    else {
+      this.toastr.error(`All inputs required!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+    }
   }
 }
