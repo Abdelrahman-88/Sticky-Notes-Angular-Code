@@ -167,6 +167,9 @@ export class LoginComponent implements OnInit {
           this.spinner.hide();
           this.toastr.error(`${this.error}!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
         }
+      },
+      (error:any)=>{
+        this.spinner.hide();
       })
     }
   }

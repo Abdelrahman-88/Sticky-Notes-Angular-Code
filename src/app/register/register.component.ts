@@ -19,8 +19,8 @@ export class RegisterComponent implements OnInit {
   error: string = "";
 
   registerForm: FormGroup = new FormGroup({
-    "first_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^\w+$/)]),
-    "last_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^\w+$/)]),
+    "first_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]),
+    "last_name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(10), Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]),
     "email": new FormControl(null, [Validators.email, Validators.required]),
     "age": new FormControl(null, [Validators.min(16), Validators.max(80), Validators.required, Validators.pattern(/^\d+$/)]),
     "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)])
@@ -168,6 +168,9 @@ export class RegisterComponent implements OnInit {
           this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
           
         }
+      },
+      (error:any)=>{
+        this.spinner.hide();
       })
     }
   }

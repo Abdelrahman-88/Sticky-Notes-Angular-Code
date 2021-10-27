@@ -39,24 +39,24 @@ export class HomeComponent implements OnInit {
   })
 
 
-  constructor(private _AuthService: AuthService, private _NotesService: NotesService, private spinner: NgxSpinnerService, private toastr: ToastrService, private _Router:Router) { }
+  constructor(private _AuthService: AuthService, private _NotesService: NotesService, private spinner: NgxSpinnerService, private toastr: ToastrService, private _Router: Router) { }
 
   ngOnInit(): void {
-    
+
     this.id = this._AuthService.userData.value;
     this.token = localStorage.getItem("userToken");
     this.spinner.show();
     this.getData();
   }
 
-  search(searchForm:FormGroup){
-    if(searchForm.valid){
+  search(searchForm: FormGroup) {
+    if (searchForm.valid) {
       this.terms = searchForm.controls.term.value;
     }
-    else{
+    else {
       this.toastr.error(`Error invalid input(<>)!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
     }
-    
+
   }
 
   sendData(addForm: FormGroup) {
@@ -74,6 +74,9 @@ export class HomeComponent implements OnInit {
         if (response.message == "success") {
           this.getData();
         }
+      },
+      (error:any)=>{
+        this.spinner.hide();
       })
     }
     else if (addForm.get('title')?.errors?.pattern || addForm.get('desc')?.errors?.pattern) {
@@ -94,8 +97,11 @@ export class HomeComponent implements OnInit {
       else {
         this.spinner.hide();
         localStorage.removeItem("userToken");
-      this._Router.navigate(["/login"]);
+        this._Router.navigate(["/login"]);
       }
+    },
+    (error:any)=>{
+      this.spinner.hide();
     })
   }
 
@@ -120,6 +126,9 @@ export class HomeComponent implements OnInit {
       if (response.message == 'deleted') {
         this.getData();
       }
+    },
+    (error:any)=>{
+      this.spinner.hide();
     })
   }
 
@@ -144,6 +153,9 @@ export class HomeComponent implements OnInit {
         if (response.message == "updated") {
           this.getData();
         }
+      },
+      (error:any)=>{
+        this.spinner.hide();
       })
     }
     else if (updateForm.get('title')?.errors?.pattern || updateForm.get('desc')?.errors?.pattern) {
