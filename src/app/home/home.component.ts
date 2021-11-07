@@ -94,6 +94,10 @@ export class HomeComponent implements OnInit {
         this.notes = response.Notes;
         this.spinner.hide();
       }
+      else if (response.message == 'no notes found') {
+        this.notes = [];
+        this.spinner.hide();
+      }
       else {
         this.spinner.hide();
         localStorage.removeItem("userToken");
