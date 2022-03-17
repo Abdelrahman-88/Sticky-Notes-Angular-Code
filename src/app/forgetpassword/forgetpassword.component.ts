@@ -6,27 +6,21 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'app-forgetpassword',
+  templateUrl: './forgetpassword.component.html',
+  styleUrls: ['./forgetpassword.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class ForgetpasswordComponent implements OnInit {
+
   myStyle: object = {};
-	myParams: any = {};
-	width: number = 100;
-	height: number = 100;
+  myParams: any = {};
+  width: number = 100;
+  height: number = 100;
 
   error: string = "";
-
-  registerForm: FormGroup = new FormGroup({
-    "name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(30), Validators.required, Validators.pattern(/^[a-z A-Z]+$/)]),
-    "location": new FormControl(null, [Validators.required,Validators.pattern(/^[a-zA-Z]+$/)]),
-    "email": new FormControl(null, [Validators.email, Validators.required]),
-    "phone": new FormControl(null, [Validators.required,Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)]),
-    "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)]),
-    "cPassword":new FormControl(null, [Validators.required])
+  resetForm: FormGroup = new FormGroup({
+    "email": new FormControl(null, [Validators.email, Validators.required])
   })
-
   constructor(private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -154,20 +148,20 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  submitRegisterForm(registerForm: FormGroup) {    
+  submitResetForm(resetForm: FormGroup) {
     this.spinner.show();
-    if (registerForm.valid && registerForm.get('cPassword')?.value===registerForm.get('password')?.value) {
-      this._AuthService.register(registerForm.value).subscribe((response) => {
-        
+    if (resetForm.valid) {
+      
+      this._AuthService.forgetPassword(resetForm.value).subscribe((response) => {
+
         if (response.message == "done") {
           this.spinner.hide();
-          this.toastr.success('Register successfully please verify your email before login!', "",{positionClass:'toast-bottom-right',timeOut: 5000});
-          this._Router.navigate(["/login"]);
+          this.toastr.success('Please check your email', "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
         }
         else {
-          this.spinner.hide();
           this.error = response.message;
-          this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
+          this.spinner.hide();
+          this.toastr.error(`${this.error}!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
         }
       },
       (error:any)=>{     
@@ -177,9 +171,13 @@ export class RegisterComponent implements OnInit {
       })
     }else{
       this.spinner.hide();
-        this.error = "Invalid inputs";
+        this.error = "Invalid input";
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     }
+  }
+
+  cancle(){
+    this._Router.navigate(["/login"]);
   }
 
 }

@@ -6,34 +6,27 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NotesService {
+  Url ='https://sticky-notes-project.herokuapp.com/'
 
   constructor(private _HttpClient:HttpClient) { }
 
-  addNote(addData:Object):Observable<any>{
-    return this._HttpClient.post("https://route-egypt-api.herokuapp.com/addNote",addData)
+  addNote(body:Object,userId:any,token:any):Observable<any>{
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this._HttpClient.post(`${this.Url}addNote/${userId}`,body,{headers})
   }
 
-  getNote(id:any,token:any):Observable<any>{
-    let headerData = new HttpHeaders({
-        "Token":token,
-        "userID":id
-      });
-    
-    return this._HttpClient.get("https://route-egypt-api.herokuapp.com/getUserNotes",{headers:headerData})
+  getNote(userId:any,token:any,search:any,page:any):Observable<any>{
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this._HttpClient.get(`${this.Url}getUserNotes/${userId}?search=${search}&page=${page}`,{headers})
   }
 
-  deleteNote(deleteData:any):Observable<any>{
-    let options = {
-      body:{
-        NoteID:deleteData.NoteID,
-        token:deleteData.token
-      }
-    }
-    return this._HttpClient.delete("https://route-egypt-api.herokuapp.com/deleteNote",options)
+  deleteNote(noteId:any,token:any):Observable<any>{
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this._HttpClient.delete(`${this.Url}deleteNote/${noteId}`,{headers})
   }
 
-  updateNote(updateData:Object):Observable<any>{
-    return this._HttpClient.put("https://route-egypt-api.herokuapp.com/updateNote",updateData)
-    
+  updateNote(noteId:any,token:any,body:object):Observable<any>{
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this._HttpClient.put(`${this.Url}updateNote/${noteId}`,body,{headers})    
   }
 }

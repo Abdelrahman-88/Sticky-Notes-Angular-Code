@@ -1,133 +1,154 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "rgb(255, 255, 123)" type = "timer" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="rgb(255, 255, 123)" type="timer" [fullScreen]="true"></ngx-spinner>
 
 <div class="py-5 mt-5 container">
 
-  <div>
-    <div class="text-end">
-      <button (click)="changeToAdd()" type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-        data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add Note</button>
+    <div>
+        <div class="text-end">
+            <button (click)="changeToAdd()" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add Note</button>
 
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div *ngIf="change=='add'" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-primary" id="exampleModalLabel">Add Note</h5>
+                        <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
+                    </div>
+                    <form [formGroup]="addForm" (ngSubmit)="sendData(addForm)">
+                        <div class="modal-body">
+                            <div>
+                                <div class="mb-3">
+                                    <input formControlName="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
+                                    <div *ngIf="addForm.get('title')?.errors!=null && addForm.get('title')?.touched" class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
+                                        <p *ngIf="addForm.get('title')?.errors?.required">Title is required</p>
+                                        <p *ngIf="addForm.get('title')?.errors?.pattern">Error invalid input(
+                                            <>)</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea formControlName="content" class="form-control" id="message-text" rows="10" placeholder="Add Description"></textarea>
+                                    <div *ngIf="addForm.get('content')?.errors!=null && addForm.get('content')?.touched" class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
+                                        <p *ngIf="addForm.get('content')?.errors?.required">Description is required</p>
+                                        <p *ngIf="addForm.get('content')?.errors?.pattern">Error invalid input(
+                                            <>)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Add Note</button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="change=='delete'" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure?</h5>
+                        <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
+                    </div>
+                    <div class="modal-body text-primary text-center">
+                        Do you really want to delete ?
+                        <br> Process cannot be undo
+                    </div>
+                    <div class="modal-footer">
+                        <button (click)="deleteData()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Delete</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+                <div *ngIf="change=='update'" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-primary" id="exampleModalLabel">Update Note</h5>
+                        <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
+                    </div>
+                    <form [formGroup]="updateForm" (ngSubmit)="updateData(updateForm)">
+                        <div class="modal-body">
+                            <div>
+                                <div class="mb-3">
+                                    <input formControlName="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
+                                    <div *ngIf="updateForm.get('title')?.errors!=null && updateForm.get('title')?.touched" class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
+                                        <p *ngIf="updateForm.get('title')?.errors?.required">Title is required</p>
+                                        <p *ngIf="updateForm.get('title')?.errors?.pattern">Error invalid input(
+                                            <>)</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea formControlName="content" class="form-control" id="message-text" rows="10" placeholder="Add Description"></textarea>
+                                    <div *ngIf="updateForm.get('content')?.errors!=null && updateForm.get('content')?.touched" class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
+                                        <p *ngIf="updateForm.get('content')?.errors?.required">Description is required</p>
+                                        <p *ngIf="updateForm.get('content')?.errors?.pattern">Error invalid input(
+                                            <>)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button [disabled]="updateForm.invalid" type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Update Note</button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div *ngIf="change=='add'" class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-primary" id="exampleModalLabel">Add Note</h5>
-            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
-          </div>
-          <form [formGroup]="addForm" (ngSubmit)="sendData(addForm)">
-            <div class="modal-body">
-              <div>
-                <div class="mb-3">
-                  <input formControlName="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
-                  <div *ngIf="addForm.get('title')?.errors!=null && addForm.get('title')?.touched"
-                    class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
-                    <p *ngIf="addForm.get('title')?.errors?.required">Title is required</p>
-                    <p *ngIf="addForm.get('title')?.errors?.pattern">Error invalid input(<>)</p>
-                </div>
-                </div>
-                <div class="mb-3">
-                  <textarea formControlName="desc" class="form-control" id="message-text" rows="10"
-                    placeholder="Add Description"></textarea>
-                    <div *ngIf="addForm.get('desc')?.errors!=null && addForm.get('desc')?.touched"
-                    class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
-                    <p *ngIf="addForm.get('desc')?.errors?.required">Description is required</p>
-                    <p *ngIf="addForm.get('desc')?.errors?.pattern">Error invalid input(<>)</p>
-                </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button [disabled]="addForm.invalid" type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Add Note</button>
-              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
-            </div>
-          </form>
-        </div>
-        <div *ngIf="change=='delete'" class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure?</h5>
-            <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
-          </div>
-          <div class="modal-body text-primary text-center">
-            Do you really want to delete ?
-            <br>
-            Process cannot be undo
-          </div>
-          <div class="modal-footer">
-            <button (click)="deleteData()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Delete</button>
-            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </div>
-        <div *ngIf="change=='update'" class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-primary" id="exampleModalLabel">Update Note</h5>
-              <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
-            </div>
-            <form [formGroup]="updateForm" (ngSubmit)="updateData(updateForm)">
-              <div class="modal-body">
-                <div>
-                  <div class="mb-3">
-                    <input [value]="title" formControlName="title" type="text" class="form-control" id="recipient-name" placeholder="Title">
-                    <div *ngIf="updateForm.get('title')?.errors!=null && updateForm.get('title')?.touched"
-                      class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
-                      <p *ngIf="updateForm.get('title')?.errors?.required">Title is required</p>
-                      <p *ngIf="updateForm.get('title')?.errors?.pattern">Error invalid input(<>)</p>
-                  </div>
-                  </div>
-                  <div class="mb-3">
-                    <textarea [value]="desc" formControlName="desc" class="form-control" id="message-text" rows="10"
-                      placeholder="Add Description"></textarea>
-                      <div *ngIf="updateForm.get('desc')?.errors!=null && updateForm.get('desc')?.touched"
-                      class="alert alert-danger mt-2 fw-bolder bg-transparent border-0">
-                      <p *ngIf="updateForm.get('desc')?.errors?.required">Description is required</p>
-                      <p *ngIf="updateForm.get('desc')?.errors?.pattern">Error invalid input(<>)</p>
-                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button [disabled]="updateForm.invalid" type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Update Note</button>
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancle</button>
-              </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="w-75 m-auto">
-    <form [formGroup]="searchForm" class="form-floating my-3">
-      <input (keyup)="search(searchForm)" formControlName="term" type="text" class="form-control bg-transparent text-primary border-primary" id="floatingInput" placeholder="Search">
-      <label class="text-primary" for="floatingInput">Search</label>
-    </form>
-  </div>
+    <div class="w-75 m-auto">
+        <form [formGroup]="searchForm" class="form-floating my-3">
+            <input (keyup)="search(searchForm)" formControlName="term" type="text" class="form-control bg-transparent text-primary border-primary" id="floatingInput" placeholder="Search">
+            <label class="text-primary" for="floatingInput">Search<i *ngIf="spin" class="fas fa-spinner ms-2 fa-pulse"></i></label>
 
-  <div class="row justify-content-center">
-    <div *ngIf="(notes|search:terms).length == 0 && terms" class="d-flex justify-content-center align-items-center mt-5 text-primary">
-      <h2>
-        No Match
-      </h2>
+        </form>
     </div>
-    <div *ngFor="let note of notes|search:terms" class="col-md-3 note m-5 p-3 shadow">
-      <div class="dropdown text-end">
-        <a class="text-dark" type="button" [id]="note._id" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fas fa-thumbtack text-primary"></i>
-        </a>
-        <ul class="dropdown-menu" [attr.aria-labelledby]="note._id">
-          <li><a type="button" class="dropdown-item d-flex justify-content-between align-items-center" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" (click)="getUpdateData(note)">Edit<i
-                class="fas fa-pen-square text-primary"></i></a></li>
-          <li><a type="button" class="btn btn-primary dropdown-item d-flex justify-content-between align-items-center"
-              data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getNoteID(note._id)">Delete<i
-                class="fas fa-trash-alt text-danger"></i></a></li>
+
+    <nav aria-label="Page navigation example" *ngIf="notes.length">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a (click)="getLastPage('first')" class="page-link text-primary bg-transparent border-primary" aria-label="Previous">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a (click)="changePage('prev')" class="page-link text-primary bg-transparent border-primary" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li (click)="getCurrentPage(page)" *ngFor="let page of visablePages" class="page-item"><a [ngClass]="{'active': currentPage==page}" class="page-link text-primary bg-transparent border-primary">{{page}}</a></li>
+            <li class="page-item">
+                <a (click)="changePage('next')" class="page-link text-primary bg-transparent border-primary" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a (click)="getLastPage('last')" class="page-link text-primary bg-transparent border-primary" aria-label="Next">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
         </ul>
-      </div>
-      <div class=" px-1 py-3">
-        <h3 class="text-center">{{note.title}}</h3>
-        <p>{{note.desc}}</p>
-      </div>
-    </div>
+    </nav>
 
-  </div>
+    <div class="row justify-content-center">
+        <div *ngIf="!notes.length && terms" class="d-flex justify-content-center align-items-center mt-5 text-primary">
+            <h2>
+                No Match!
+            </h2>
+        </div>
+        <div *ngFor="let note of notes" class="col-md-3 note m-5 p-3 shadow">
+            <div class="dropdown text-end">
+                <a class="text-dark" type="button" [id]="note._id" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-thumbtack text-primary"></i>
+                </a>
+                <ul class="dropdown-menu" [attr.aria-labelledby]="note._id">
+                    <li><a type="button" class="dropdown-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getUpdateData(note)">Edit<i
+                class="fas fa-pen-square text-primary"></i></a></li>
+                    <li><a type="button" class="btn btn-primary dropdown-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getNoteID(note._id)">Delete<i
+                class="fas fa-trash-alt text-danger"></i></a></li>
+                </ul>
+            </div>
+            <div class=" px-1 py-3">
+                <h3 class="text-center">{{note.title}}</h3>
+                <p>{{note.content}}</p>
+            </div>
+        </div>
+
+    </div>
 
 </div>

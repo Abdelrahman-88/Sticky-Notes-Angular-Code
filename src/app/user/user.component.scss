@@ -1,6 +1,39 @@
 @import "../../styles.scss";
-
-h2,i{
+h2,
+.icon {
     color: $third-color;
 }
 
+.modal-content {
+    background-color: $third-color;
+}
+
+.modal-body {
+    padding: 0 !important;
+}
+
+.modal-dialog .form-control {
+    background-color: $third-color;
+    border: 0;
+}
+
+.modal-dialog .form-control:focus {
+    border-color: unset;
+    box-shadow: unset;
+}
+
+.modal-header {
+    border-bottom: unset;
+}
+
+.modal-footer {
+    border-top: unset;
+}
+
+.fa-thumbtack {
+    transform: rotate(45deg);
+}
+
+.fa-thumbtack:hover {
+    color: rgb(189, 0, 0) !important;
+}

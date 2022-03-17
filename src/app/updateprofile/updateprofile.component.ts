@@ -6,30 +6,33 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'app-updateprofile',
+  templateUrl: './updateprofile.component.html',
+  styleUrls: ['./updateprofile.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class UpdateprofileComponent implements OnInit {
+
   myStyle: object = {};
 	myParams: any = {};
 	width: number = 100;
 	height: number = 100;
-
   error: string = "";
-
-  registerForm: FormGroup = new FormGroup({
-    "name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(30), Validators.required, Validators.pattern(/^[a-z A-Z]+$/)]),
-    "location": new FormControl(null, [Validators.required,Validators.pattern(/^[a-zA-Z]+$/)]),
-    "email": new FormControl(null, [Validators.email, Validators.required]),
-    "phone": new FormControl(null, [Validators.required,Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)]),
-    "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)]),
-    "cPassword":new FormControl(null, [Validators.required])
+  userData:any
+  updateProfileForm: FormGroup = new FormGroup({
+    "name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(30), Validators.pattern(/^[a-z A-Z]+$/)]),
+    "location": new FormControl(null, [Validators.pattern(/^[a-zA-Z]+$/)]),
+    "phone": new FormControl(null, [Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)])
   })
 
   constructor(private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    
+    this.userData = this._AuthService.userData.value;
+    this.updateProfileForm.controls.name.setValue(this.userData.name)
+    this.updateProfileForm.controls.phone.setValue(this.userData.phone)
+    this.updateProfileForm.controls.location.setValue(this.userData.location)
+    
     this.myStyle = {
       'position': 'fixed',
       'width': '100%',
@@ -154,15 +157,20 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  submitRegisterForm(registerForm: FormGroup) {    
+  submitUpdateProfileForm(updateProfileForm: FormGroup) {    
+    let{_id}:any= this._AuthService.userData.value;
+    let token:any = localStorage.getItem("userToken")
     this.spinner.show();
-    if (registerForm.valid && registerForm.get('cPassword')?.value===registerForm.get('password')?.value) {
-      this._AuthService.register(registerForm.value).subscribe((response) => {
+    if (updateProfileForm.valid) {
+      
+      this._AuthService.updateProfile(_id,token,updateProfileForm.value).subscribe((response) => {
         
         if (response.message == "done") {
+          localStorage.setItem("userToken", response.token);
+          this._AuthService.saveUserData();
           this.spinner.hide();
-          this.toastr.success('Register successfully please verify your email before login!', "",{positionClass:'toast-bottom-right',timeOut: 5000});
-          this._Router.navigate(["/login"]);
+          this.toastr.success('Profile updated successfully', "",{positionClass:'toast-bottom-right',timeOut: 5000});
+          this._Router.navigate(["/user"]);
         }
         else {
           this.spinner.hide();
@@ -180,6 +188,10 @@ export class RegisterComponent implements OnInit {
         this.error = "Invalid inputs";
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     }
+  }
+
+  cancle(){
+    this._Router.navigate(["/user"]);
   }
 
 }

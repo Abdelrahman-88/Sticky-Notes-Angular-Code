@@ -17,6 +17,14 @@ import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { ParticlesModule } from 'ngx-particle';
 import { SearchPipe } from './search.pipe';
+import { VerifyComponent } from './verify/verify.component';
+import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { ResetComponent } from './reset/reset.component';
+import { UpdatepasswordComponent } from './updatepassword/updatepassword.component';
+import { UpdateprofileComponent } from './updateprofile/updateprofile.component';
+import { UpdateemailComponent } from './updateemail/updateemail.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -27,7 +35,14 @@ import { SearchPipe } from './search.pipe';
     NotfoundComponent,
     NavbarComponent,
     UserComponent,
-    SearchPipe
+    SearchPipe,
+    VerifyComponent,
+    ForgetpasswordComponent,
+    ChangepasswordComponent,
+    ResetComponent,
+    UpdatepasswordComponent,
+    UpdateprofileComponent,
+    UpdateemailComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +55,23 @@ import { SearchPipe } from './search.pipe';
     CommonModule,
     ToastrModule.forRoot(),
     ParticlesModule,
-  ],
+    SocialLoginModule
+    ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [{
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '280410149538-752ere98dbab0du7ro51te1hnm9mrctp.apps.googleusercontent.com'
+          )
+        }
+      ]
+    } as SocialAuthServiceConfig,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,32 +4,33 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  selector: 'app-updateemail',
+  templateUrl: './updateemail.component.html',
+  styleUrls: ['./updateemail.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class UpdateemailComponent implements OnInit {
+
   myStyle: object = {};
 	myParams: any = {};
 	width: number = 100;
 	height: number = 100;
-
   error: string = "";
+  userData:any
 
-  registerForm: FormGroup = new FormGroup({
-    "name": new FormControl(null, [Validators.minLength(3), Validators.maxLength(30), Validators.required, Validators.pattern(/^[a-z A-Z]+$/)]),
-    "location": new FormControl(null, [Validators.required,Validators.pattern(/^[a-zA-Z]+$/)]),
-    "email": new FormControl(null, [Validators.email, Validators.required]),
-    "phone": new FormControl(null, [Validators.required,Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)]),
-    "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)]),
-    "cPassword":new FormControl(null, [Validators.required])
+  updateEmailForm: FormGroup = new FormGroup({
+    "email": new FormControl(null, [Validators.email, Validators.required])
   })
 
   constructor(private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    
+    this.userData = this._AuthService.userData.value;
+    this.updateEmailForm.controls.email.setValue(this.userData.email)
+    
     this.myStyle = {
       'position': 'fixed',
       'width': '100%',
@@ -154,14 +155,19 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  submitRegisterForm(registerForm: FormGroup) {    
+  submitUpdateEmailForm(updateEmailForm: FormGroup) {    
+    let{_id}:any= this._AuthService.userData.value;
+    let token:any = localStorage.getItem("userToken")
     this.spinner.show();
-    if (registerForm.valid && registerForm.get('cPassword')?.value===registerForm.get('password')?.value) {
-      this._AuthService.register(registerForm.value).subscribe((response) => {
+    if (updateEmailForm.valid) {
+      
+      this._AuthService.updateEmail(_id,token,updateEmailForm.value).subscribe((response) => {
         
         if (response.message == "done") {
+          localStorage.removeItem("userToken");
+          this._AuthService.userData.next(null)
           this.spinner.hide();
-          this.toastr.success('Register successfully please verify your email before login!', "",{positionClass:'toast-bottom-right',timeOut: 5000});
+          this.toastr.success('Email updated successfully please verify your email and login', "",{positionClass:'toast-bottom-right',timeOut: 5000});
           this._Router.navigate(["/login"]);
         }
         else {
@@ -180,6 +186,10 @@ export class RegisterComponent implements OnInit {
         this.error = "Invalid inputs";
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     }
+  }
+
+  cancle(){
+    this._Router.navigate(["/user"]);
   }
 
 }

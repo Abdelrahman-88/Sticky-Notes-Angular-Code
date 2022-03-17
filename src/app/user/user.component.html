@@ -1,13 +1,38 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="rgb(255, 255, 123)" type="timer" [fullScreen]="true"></ngx-spinner>
+
 <div class="py-5 text-white mt-5 container">
     <div class="px-md-5 py-5">
         <h2 class="my-3 text-primary">Profile INFO</h2>
-    <ul class="list-unstyled">
-        <li class="my-2"><i class="fas fa-file-signature me-2"></i><span class="fw-bolder">First Name :</span> {{userData.first_name}}</li>
-        <li class="my-2"><i class="fas fa-file-signature me-2"></i><span class="fw-bolder">Last Name :</span> {{userData.last_name}}</li>
-        <li class="my-2"><i class="fas fa-envelope me-2"></i><span class="fw-bolder">Email :</span> {{userData.email}}</li>
-        <li class="my-2"><i class="fas fa-file-signature me-2"></i><span class="fw-bolder">Age :</span> {{userData.age}}</li>
-        <li class="my-2"><i class="fas fa-id-card me-2"></i><span class="fw-bolder">ID :</span> {{userData._id}}</li>
-    </ul>
+        <ul class="list-unstyled">
+            <li class="my-2"><i class="icon fas fa-id-card me-2 fa-fw"></i><span class="fw-bolder">Name :</span> {{userData.name}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-envelope me-2 fa-fw"></i><span class="fw-bolder">Email :</span> {{userData.email}} <i type="button" (click)="updateEmail()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-key me-2 fa-fw"></i><span class="fw-bolder">Password :</span> **************** <i type="button" (click)="updatePassword()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-mobile-alt me-2 fa-fw"></i><span class="fw-bolder">Phone :</span> {{userData.phone}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-map-marker-alt me-2 fa-fw"></i><span class="fw-bolder">Location :</span> {{userData.location}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-user me-2 fa-fw"></i><span class="fw-bolder">Account :</span> Active <i type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" class="fas fa-trash-alt ms-2 text-danger fa-fw"></i></li>
+        </ul>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure?</h5>
+                        <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-thumbtack text-primary"></i></a>
+                    </div>
+                    <div class="modal-body text-primary text-center">
+                        Do you really want to deactivate your profile ?
+                        <br> Process cannot be undo
+                    </div>
+                    <div class="modal-footer m-auto">
+                        <button (click)="deactivateProfile()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Deactivate</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    </div>
-    
+
+</div>

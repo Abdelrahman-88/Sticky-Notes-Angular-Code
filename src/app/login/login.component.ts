@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
-
+import { SocialAuthService } from "angularx-social-login";
+import { GoogleLoginProvider } from "angularx-social-login";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
     "email": new FormControl(null, [Validators.email, Validators.required]),
     "password": new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)])
   })
-  constructor(private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
+  constructor(private _SocialAuthService: SocialAuthService,private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.myStyle = {
@@ -154,7 +155,7 @@ export class LoginComponent implements OnInit {
     if (loginForm.valid) {
       this._AuthService.login(loginForm.value).subscribe((response) => {
 
-        if (response.message == "success") {
+        if (response.message == "done") {
           localStorage.setItem("userToken", response.token);
           this._AuthService.saveUserData();
           this.spinner.hide();
@@ -168,10 +169,51 @@ export class LoginComponent implements OnInit {
           this.toastr.error(`${this.error}!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
         }
       },
-      (error:any)=>{
+      (error:any)=>{     
         this.spinner.hide();
+        this.error = error.error.message;
+        this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       })
+    }else{
+      this.spinner.hide();
+        this.error = "Invalid inputs";
+        this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     }
+  }
+
+  submitGoogleForm() {
+    this._SocialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this._SocialAuthService.authState.subscribe((user) => {
+      if (user) {
+        let data = {name:user.name,response:user.response}
+        this.spinner.show();
+        this._AuthService.googleLogin(data).subscribe((response) => {
+
+              if (response.message == "done") {
+                localStorage.setItem("userToken", response.token);
+                this._AuthService.saveUserData();
+                this.spinner.hide();
+                this.toastr.success('Success!', "", { positionClass: 'toast-bottom-right', timeOut: 1000 });
+                this._Router.navigate(["/home"]);
+      
+              }
+              else {
+                this.error = response.message;
+                this.spinner.hide();
+                this.toastr.error(`${this.error}!`, "", { positionClass: 'toast-bottom-right', timeOut: 5000 });
+              }
+            },
+            (error:any)=>{     
+              this.spinner.hide();
+              this.error = error.error.message;
+              this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
+            })
+      }  
+    });
+  }
+
+  forgetpassword(){
+    this._Router.navigate(["/forgetpassword"]);
   }
 
 }
