@@ -1,15 +1,18 @@
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="rgb(255, 255, 123)" type="timer" [fullScreen]="true"></ngx-spinner>
 
 <div class="py-5 text-white mt-5 container">
-    <div class="px-md-5 py-5">
-        <h2 class="my-3 text-primary">Profile INFO</h2>
+    <div class="py-5">
+        <h2 class="my-3 text-primary">Profile details</h2>
         <ul class="list-unstyled">
-            <li class="my-2"><i class="icon fas fa-id-card me-2 fa-fw"></i><span class="fw-bolder">Name :</span> {{userData.name}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-id-badge me-2 fa-fw"></i><span class="fw-bolder">Name :</span> {{userData.name}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
             <li class="my-2"><i class="icon fas fa-envelope me-2 fa-fw"></i><span class="fw-bolder">Email :</span> {{userData.email}} <i type="button" (click)="updateEmail()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
             <li class="my-2"><i class="icon fas fa-key me-2 fa-fw"></i><span class="fw-bolder">Password :</span> **************** <i type="button" (click)="updatePassword()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
             <li class="my-2"><i class="icon fas fa-mobile-alt me-2 fa-fw"></i><span class="fw-bolder">Phone :</span> {{userData.phone}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
             <li class="my-2"><i class="icon fas fa-map-marker-alt me-2 fa-fw"></i><span class="fw-bolder">Location :</span> {{userData.location}} <i type="button" (click)="updateProfile()" class="fas fa-edit ms-2 text-primary fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-id-card me-2 fa-fw"></i><span class="fw-bolder">Subscription : </span> <span *ngIf="userData.subscription">Active</span><span (click)="subscribe()" class="subscribe" *ngIf="!userData.subscription">Subscribe Now</span></li>
             <li class="my-2"><i class="icon fas fa-user me-2 fa-fw"></i><span class="fw-bolder">Account :</span> Active <i type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" class="fas fa-trash-alt ms-2 text-danger fa-fw"></i></li>
+            <li class="my-2"><i class="icon fas fa-history me-2 fa-fw"></i><span class="fw-bolder">Payment history : </span><span (click)="history()" class="subscribe">History</span></li>
+
         </ul>
 
 

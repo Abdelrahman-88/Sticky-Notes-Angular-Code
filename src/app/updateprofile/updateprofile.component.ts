@@ -28,7 +28,7 @@ export class UpdateprofileComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.userData = this._AuthService.userData.value;
+    this._AuthService.userData.subscribe((res:any)=>{ this.userData=res});   
     this.updateProfileForm.controls.name.setValue(this.userData.name)
     this.updateProfileForm.controls.phone.setValue(this.userData.phone)
     this.updateProfileForm.controls.location.setValue(this.userData.location)

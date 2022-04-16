@@ -119,11 +119,15 @@ export class HomeComponent implements OnInit {
     (error:any)=>{
       if (error.error.message == 'No notes found') {
         this.notes = [];
+        this.spinner.hide();
+        this.spin = false
+      }else{
+        this.spinner.hide();
+        this.spin = false
+        this.error = error.error.message;
+        this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       }
-      this.spinner.hide();
-      this.spin = false
-      this.error = error.error.message;
-      this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});})
+      })
   }
 
   getNoteID(noteId: any) {

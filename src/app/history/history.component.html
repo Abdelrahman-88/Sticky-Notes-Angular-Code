@@ -1,0 +1,62 @@
+<section>
+    <div class="py-5 mt-5 container">
+        <h1 class="text-primary my-3">Payment history</h1>
+
+        <nav aria-label="Page navigation example" *ngIf="payments.length">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a (click)="getLastPage('first')" class="page-link text-primary bg-transparent border-primary" aria-label="Previous">
+                        <span aria-hidden="true">First</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a (click)="changePage('prev')" class="page-link text-primary bg-transparent border-primary" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li (click)="getCurrentPage(page)" *ngFor="let page of visablePages" class="page-item"><a [ngClass]="{'active': currentPage==page}" class="page-link text-primary bg-transparent border-primary">{{page}}</a></li>
+                <li class="page-item">
+                    <a (click)="changePage('next')" class="page-link text-primary bg-transparent border-primary" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a (click)="getLastPage('last')" class="page-link text-primary bg-transparent border-primary" aria-label="Next">
+                        <span aria-hidden="true">Last</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <div *ngIf="!payments.length" class="d-flex justify-content-center align-items-center mt-5 text-primary">
+                <h2>
+                    No Payments
+                </h2>
+            </div>
+            <div *ngIf="payments.length" class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr class="text-primary border-primary">
+                            <th scope="col">Index</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-primary">
+                        <tr *ngFor="let payment of payments; let i = index">
+                            <th class="text-primary" scope="row">{{i+1}}</th>
+                            <td>{{payment.status}}</td>
+                            <td>{{payment.amount}} $</td>
+                            <td>{{payment.createdAt|date:'date'}}</td>
+                            <td>{{payment.createdAt|date:'time'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</section>

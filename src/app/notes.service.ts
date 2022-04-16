@@ -7,6 +7,8 @@ import { Injectable } from '@angular/core';
 })
 export class NotesService {
   Url ='https://sticky-notes-project.herokuapp.com/'
+  // Url ='http://localhost:3000/'
+
 
   constructor(private _HttpClient:HttpClient) { }
 

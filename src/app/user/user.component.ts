@@ -16,7 +16,7 @@ export class UserComponent implements OnInit {
   constructor(private _AuthService:AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.userData = this._AuthService.userData.value;
+  this._AuthService.userData.subscribe((res:any)=>{ this.userData=res});   
   }
 
   updateEmail(){
@@ -29,6 +29,14 @@ export class UserComponent implements OnInit {
 
   updateProfile(){
     this._Router.navigate(["/updateprofile"]);
+  }
+
+  subscribe(){
+    this._Router.navigate(["/pay"]);
+  }
+
+  history(){
+    this._Router.navigate(["/history"]);
   }
 
   deactivateProfile(){

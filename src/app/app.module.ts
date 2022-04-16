@@ -25,6 +25,9 @@ import { UpdatepasswordComponent } from './updatepassword/updatepassword.compone
 import { UpdateprofileComponent } from './updateprofile/updateprofile.component';
 import { UpdateemailComponent } from './updateemail/updateemail.component';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { PayComponent } from './pay/pay.component';
+import { HistoryComponent } from './history/history.component';
+import { DatePipe } from './date.pipe';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
     ResetComponent,
     UpdatepasswordComponent,
     UpdateprofileComponent,
-    UpdateemailComponent
+    UpdateemailComponent,
+    PayComponent,
+    HistoryComponent,
+    DatePipe
   ],
   imports: [
     BrowserModule,

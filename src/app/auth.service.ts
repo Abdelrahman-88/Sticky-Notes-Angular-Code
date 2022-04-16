@@ -10,6 +10,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
   Url ='https://sticky-notes-project.herokuapp.com/'
+  // Url ='http://localhost:3000/'
+
   userData = new BehaviorSubject(null);
   changeData = new BehaviorSubject(null);
 
@@ -90,5 +92,6 @@ export class AuthService {
 
   logOut(id:any,token:any):Observable<any>{
     const headers = { 'Authorization': `Bearer ${token}` };
-    return this._HttpClient.patch(`${this.Url}logOut/${id}`,"",{headers})  }
+    return this._HttpClient.patch(`${this.Url}logOut/${id}`,"",{headers})  
+  }
 }

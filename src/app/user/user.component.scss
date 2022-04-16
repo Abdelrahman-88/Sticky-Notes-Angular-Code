@@ -4,6 +4,16 @@ h2,
     color: $third-color;
 }
 
+.subscribe {
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color .5s;
+}
+
+.subscribe:hover {
+    color: #0d6efd;
+}
+
 .modal-content {
     background-color: $third-color;
 }

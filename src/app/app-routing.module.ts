@@ -4,10 +4,12 @@ import { AuthGuard } from './auth.guard';
 import { ChangeGuard } from './change.guard';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
+import { HistoryComponent } from './history/history.component';
 import { HomeComponent } from './home/home.component';
 import { LoginGuard } from './login.guard';
 import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { PayComponent } from './pay/pay.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { UpdateemailComponent } from './updateemail/updateemail.component';
@@ -27,6 +29,8 @@ const routes: Routes = [
   {path:"updatepassword" , canActivate:[AuthGuard], component:UpdatepasswordComponent},
   {path:"updateprofile" , canActivate:[AuthGuard], component:UpdateprofileComponent},
   {path:"register", canActivate:[LoginGuard] , component:RegisterComponent},
+  {path:"pay", canActivate:[AuthGuard], component:PayComponent},
+  {path:"history", canActivate:[AuthGuard], component:HistoryComponent},
   {path:"verify/:token", canActivate:[LoginGuard] , component:VerifyComponent},
   {path:"reset/:token", canActivate:[LoginGuard] , component:ResetComponent},
   {path:"**" , component:NotfoundComponent}
