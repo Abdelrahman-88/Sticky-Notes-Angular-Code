@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
       },
       (error:any)=>{
         this.spinner.hide();
-        this.error = error.error.message;
+        this.error = 'Faild to add note'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       })
     }
@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
       }else{
         this.spinner.hide();
         this.spin = false
-        this.error = error.error.message;
+        this.error = 'Faild to get notes'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       }
       })
@@ -153,7 +153,7 @@ export class HomeComponent implements OnInit {
     },
     (error:any)=>{
       this.spinner.hide();
-      this.error = error.error.message;
+      this.error = 'Faild to delete note'
       this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     })
   }
@@ -177,7 +177,7 @@ export class HomeComponent implements OnInit {
       },
       (error:any)=>{
         this.spinner.hide();
-        this.error = error.error.message;
+        this.error = 'Faild to update note'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});      })
     }
     else if (updateForm.get('title')?.errors?.pattern || updateForm.get('content')?.errors?.pattern) {

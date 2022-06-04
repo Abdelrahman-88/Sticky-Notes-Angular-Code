@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
     },
     (error:any)=>{     
       this.spinner.hide();
-      this.error = error.error.message;
+      this.error = 'Faild to deactivate profile'
       this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     })
   }

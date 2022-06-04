@@ -38,7 +38,7 @@ error: string = "";
   },
   (error:any)=>{     
     this.spinner.hide();
-    this.error = error.error.message;
+    this.error = 'Faild to verify email'
     this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
     this._Router.navigate(["/login"]);
   })

@@ -171,7 +171,7 @@ export class UpdatepasswordComponent implements OnInit {
       },
       (error:any)=>{     
         this.spinner.hide();
-        this.error = error.error.message;
+        this.error = 'Faild to update password'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       })
     }else{

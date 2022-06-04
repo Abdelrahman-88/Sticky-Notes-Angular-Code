@@ -171,7 +171,7 @@ export class ChangepasswordComponent implements OnInit {
       },
       (error:any)=>{     
         this.spinner.hide();
-        this.error = error.error.message;
+        this.error = 'Faild to change password'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
         this.cancle()
       })

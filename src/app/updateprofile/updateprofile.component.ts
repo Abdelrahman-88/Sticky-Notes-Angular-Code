@@ -180,7 +180,7 @@ export class UpdateprofileComponent implements OnInit {
       },
       (error:any)=>{     
         this.spinner.hide();
-        this.error = error.error.message;
+        this.error = 'Faild to update profile'
         this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
       })
     }else{
