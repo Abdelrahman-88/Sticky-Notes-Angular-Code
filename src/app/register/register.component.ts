@@ -174,7 +174,8 @@ export class RegisterComponent implements OnInit {
         this.spinner.hide();
         if (error.error.message=="Send verification email error") {
           this.error = 'Register successfully but faild to send verification email please try login later'
-          this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});        }
+          this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000}); 
+          this._Router.navigate(['/login']);        }
           else{
             this.error = 'Faild to register'
             this.toastr.error(`${this.error}!`, "",{positionClass:'toast-bottom-right',timeOut: 5000});
