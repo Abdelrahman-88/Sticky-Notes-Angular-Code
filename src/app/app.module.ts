@@ -24,10 +24,13 @@ import { ResetComponent } from './reset/reset.component';
 import { UpdatepasswordComponent } from './updatepassword/updatepassword.component';
 import { UpdateprofileComponent } from './updateprofile/updateprofile.component';
 import { UpdateemailComponent } from './updateemail/updateemail.component';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { PayComponent } from './pay/pay.component';
 import { HistoryComponent } from './history/history.component';
 import { DatePipe } from './date.pipe';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+
+// import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login@1.2.3';
 
 @NgModule({
   declarations: [
@@ -72,10 +75,13 @@ import { DatePipe } from './date.pipe';
         {
           id: GoogleLoginProvider.PROVIDER_ID,
           provider: new GoogleLoginProvider(
-            '280410149538-752ere98dbab0du7ro51te1hnm9mrctp.apps.googleusercontent.com'
+            '399326150368-ho7revtu3kamve9rjdfidi5brvmesa57.apps.googleusercontent.com'
           )
         }
-      ]
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
     } as SocialAuthServiceConfig,
   }],
   bootstrap: [AppComponent]

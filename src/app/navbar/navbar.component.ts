@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
+import { SocialAuthService } from "@abacritt/angularx-social-login";
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
+  constructor(private _SocialAuthService: SocialAuthService, private _AuthService: AuthService, private _Router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
   isLogin: boolean = false;
   error: string = "";
 
@@ -33,7 +34,8 @@ export class NavbarComponent implements OnInit {
     this._AuthService.logOut(_id,token).subscribe((response) => {
       if (response.message == "done") {
         localStorage.removeItem("userToken");
-        this._AuthService.userData.next(null)
+        this._AuthService.userData.next(null);
+        this._SocialAuthService.signOut();
         this.spinner.hide();
         this.toastr.success('Logedout successfully', "", { positionClass: 'toast-bottom-right', timeOut: 1000 });
         this._Router.navigate(["/login"]);

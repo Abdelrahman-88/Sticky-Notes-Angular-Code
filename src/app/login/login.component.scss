@@ -1,3 +1,21 @@
-img {
-    width: 15px;
-}
+    img {
+        width: 15px;
+    }
+    
+    @media screen and (max-width: 1000px) {
+        .google-full {
+            display: none;
+        }
+        .google-icon {
+            display: block;
+        }
+    }
+    
+    @media screen and (min-width: 1000px) {
+        .google-full {
+            display: block;
+        }
+        .google-icon {
+            display: none;
+        }
+    }

@@ -12,6 +12,7 @@ sans-serif;
 body {
     background-color: $main-color;
     font-family: $font;
+    overflow-x: hidden;
 }
 
 i {

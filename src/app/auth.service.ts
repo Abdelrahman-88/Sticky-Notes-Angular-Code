@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  Url ='https://sticky-notes-project.herokuapp.com/'
+  Url ='https://sticky-notes-back-node-js.vercel.app/'
   // Url ='http://localhost:3000/'
 
   userData = new BehaviorSubject(null);

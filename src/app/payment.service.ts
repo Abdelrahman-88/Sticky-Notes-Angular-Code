@@ -6,7 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentService {
-  Url ='https://sticky-notes-project.herokuapp.com/'
+  Url ='https://sticky-notes-back-node-js.vercel.app/'
   // Url ='http://localhost:3000/'
   userPayments = new BehaviorSubject(null);
 

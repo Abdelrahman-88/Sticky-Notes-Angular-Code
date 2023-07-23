@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NotesService {
-  Url ='https://sticky-notes-project.herokuapp.com/'
+  Url ='https://sticky-notes-back-node-js.vercel.app/'
   // Url ='http://localhost:3000/'
 
 
